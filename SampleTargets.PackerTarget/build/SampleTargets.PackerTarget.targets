@@ -1,0 +1,52 @@
+﻿<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskName="Packer" AssemblyFile="$(MSBuildThisFileDirectory)SampleTargets.PackerTarget.dll" />
+
+  <PropertyGroup>
+    <Format>Zip</Format>
+    <MetadataFile>metadata.json</MetadataFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackerMetadata Include="PackerMetadata">
+      <!-- PKG packing custom metadata -->
+      <PkgLicenseFile Condition="'$(PkgLicenseFile)' == ''">license.rtf</PkgLicenseFile>
+      <PkgBackgroundImage Condition="'$(PkgBackgroundImage)' == ''">someimage.png</PkgBackgroundImage>
+      <PkgDistributionFile Condition="'$(PkgDistributionFile)' == ''">some-dist.xml</PkgDistributionFile>
+      <PkgBuildProductArchive Condition="'$(PkgBuildProductArchive)' == ''">true</PkgBuildProductArchive>
+      <PkgComponentId Condition="'$(PkgComponentId)' == ''">com.blackdwarf.testingapp</PkgComponentId>
+      <PkgInstallLocation Condition="'$(PkgComponentId)' == ''">/usr/local/blah</PkgInstallLocation>
+      <!-- Include the shared runtime if the app is portable and the packer permits -->
+      <TryIncludeSharedRuntime Condition="'$(TryIncludeSharedRuntime)' == ''">true</TryIncludeSharedRuntime>
+
+      <!-- Include all of the application bundle needed metadata proeprties here -->
+      <AppBundleIconFile Condition="'$(AppBundleIconFile)' == ''">someicon.png</AppBundleIconFile>
+      <AppBundlePlistFile Condition="'$(AppBundlePlistFile)' == ''">somefile.plist</AppBundlePlistFile>
+
+    </PackerMetadata>
+  </ItemGroup>
+
+  <Choose>
+    <When Condition="'$(AssemblyName)' == ''">
+      <PropertyGroup>
+        <ApplicationName>$(MsBuildProjectName)</ApplicationName>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <ApplicationName>$(AssemblyName)</ApplicationName>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <Target Name="Packer" DependsOnTargets="Publish">
+    <Packer
+         Format="$(Format)"
+         PublishedOutput="$(PublishDir)"
+         PackageName="$(PackageName)"
+         ApplicationName="$(ApplicationName)"
+         ApplicationVersion="$(Version)"
+         Rid="$(RuntimeIdentifier)"
+         AdditionalMetadata="@(PackerMetadata)"
+         MetadataFile="$(MetadataFile)"
+          />
+  </Target>
+</Project>
