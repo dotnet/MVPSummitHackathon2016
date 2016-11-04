@@ -41,7 +41,7 @@ namespace CliCommands.Packer.Task
             Log.LogMessage(MessageImportance.Normal, $"The package will be published as {metadata.PackageFileName}");
             try {
                 packer.Pack(metadata);
-                Log.LogMessage(MessageImportance.High, "Packaging complete!");
+                Log.LogMessage(MessageImportance.High, $"Packaging complete! The package can be found in {metadata.PackageFileName}.");
                 return true;
             } catch (Exception ex)
             {

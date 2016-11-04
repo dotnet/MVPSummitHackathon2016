@@ -1,38 +1,30 @@
 using System;
-//using System.CommandLine;
 using System.Diagnostics;
+using System.Linq;
 
-class Program
+namespace dotnetpacker
 {
-    static void Main(string[] args)
+    class Program
     {
-        var format = "Zip";
-        //var pkgName = "";
-
-        //ArgumentSyntax.Parse(args, syntax =>
-        //{
-            //syntax.DefineOption("f|format", ref format, "The format that you want to pack in. Currently valid: zip");
-            //syntax.DefineOption("o|output", ref pkgName, "The resulting package name");
-        //});
-
-        var shellOutCommand = "dotnet";
-        //var arguments = $"msbuild /t:Packer /p:PackageName={pkgName} /p:Format={format} /v:Quiet";
-        var arguments = $"msbuild /t:Packer /p:Format={format}";
-
-        var psi = new ProcessStartInfo
+        static void Main(string[] args)
         {
-            FileName = shellOutCommand,
-            Arguments = arguments
-        };
+            var msbArguments = $"msbuild /t:Packer /p:Format=zip /v:m";
 
-        var process = new Process
-        {
-            StartInfo = psi,
+            var psi = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                Arguments = msbArguments
+            };
 
-        };
+            var process = new Process
+            {
+                StartInfo = psi,
 
-        var rcode = process.Start();
-        
+            };
 
+            var rcode = process.Start();
+
+
+        }
     }
 }
