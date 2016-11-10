@@ -24,18 +24,10 @@
     </PackerMetadata>
   </ItemGroup>
 
-  <Choose>
-    <When Condition="'$(AssemblyName)' == ''">
-      <PropertyGroup>
-        <ApplicationName>$(MsBuildProjectName)</ApplicationName>
-      </PropertyGroup>
-    </When>
-    <Otherwise>
-      <PropertyGroup>
-        <ApplicationName>$(AssemblyName)</ApplicationName>
-      </PropertyGroup>
-    </Otherwise>
-  </Choose>
+  <PropertyGroup>
+    <ApplicationName>$(AssemblyName)</ApplicationName>
+    <ApplicationName Condition="'$(AssemblyName)' == ''">$(MsBuildProjectName)</ApplicationName>
+  </PropertyGroup>
 
   <Target Name="Packer" DependsOnTargets="Publish">
     <Packer

@@ -4,6 +4,5 @@ namespace CliCommands.Packer.Task
     {
         FrameworkDependent,
         SelfContained
-
     }
 }
