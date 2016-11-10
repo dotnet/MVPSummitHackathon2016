@@ -30,6 +30,17 @@ This is a very simple console application that allows the user to invoke MSBuild
 
 You can create a nupkg out of this project by simply using the `dotnet pack` command.
 
+### NuGet bug
+
+There's a bug in NuGet that doesn't include the `*.runtimeconfig.json` in the nupkg. For your project, you'll need to copy these lines from dotnet-packer.csproj to your csproj file, changing `dotnet-packer.runtimeconfig.json` to match your project name.
+
+```  <ItemGroup>
+    <Content Include="$(OutputPath)\dotnet-packer.runtimeconfig.json">
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)</PackagePath>
+    </Content>
+  </ItemGroup>```
+
 ## A short FAQ
 
 ### Is the tool neccessary if I just want to create a target?
