@@ -22,7 +22,7 @@ namespace dotnetpacker
 
             };
 
-            var rcode = process.Start();
+            process.Start();
 
 
         }
